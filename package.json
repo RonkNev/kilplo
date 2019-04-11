@@ -1,0 +1,20 @@
+{
+  "name": "bot",
+  "version": "1.0.0",
+  "description": "Ronkzinho`s bot",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Ronkzinho",
+  "license": "ISC",
+  "dependencies": {
+    "cpu-stat": "^2.0.1",
+    "discord.js": "^11.4.2",
+    "firebase": "^5.9.3",
+    "mathjs": "^5.9.0",
+    "moment": "^2.24.0",
+    "os": "^0.1.1",
+    "parse-ms": "^2.0.0"
+  }
+}
