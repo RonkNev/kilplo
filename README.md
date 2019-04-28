@@ -1,5 +1,8 @@
 ﻿**Salve salve galerinha do yt, d boa?**
+ 
+ 
 venho aqui trazer o `kilplo`
+
 um bot feito para ajudar criadores de bots para o discord 
 
 
