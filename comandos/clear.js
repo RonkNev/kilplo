@@ -4,7 +4,7 @@ if(!message.member.hasPermission("MANAGE_MESSAGES")) return message.reply("Você
     const deleteCount = parseInt(args[0], 10);
     if (!deleteCount || deleteCount < 2 || deleteCount > 100)
         return message.reply("Por favor, forneça um número entre 2 e 100 para o número de mensagens a serem excluídas");
-    const fetched = await message.channel.fetchMessages({ limit: deleteCount });
+    const fetched = await message.channel.fetchMessages({ limit: deleteCount + 1});
     message.channel.bulkDelete(fetched)
         .catch(error => message.reply(`Não foi possível deletar mensagens devido a: ${ error }`));
     await message.channel.send(`Limpei ${args[0]} pra tu rapa`).then(msg => msg.delete(5000))
@@ -15,5 +15,5 @@ exports.config = {
    ops: "não", 
    description: "Comando para limpar o chat", 
    categoria: "Moderation", 
-   usage: ")clear <quantidade>" 
+   usage: "<prefix>clear <quantidade>" 
 }

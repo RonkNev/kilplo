@@ -23,6 +23,6 @@ name: "ban",
 alias: ["banir"],
 description: "Comando para banir um usuario do servidor em que o comando foi executado",
 admin: "Sim",
-usage: ")ban <id>\n)ban <menção>",
+usage: "<prefix>ban <id>\n<prefix>ban <menção>",
 categoria: "Moderation"
 }

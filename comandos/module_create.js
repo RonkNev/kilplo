@@ -1,8 +1,7 @@
 const Discord = require("discord.js")
 const fs = require("fs")
-const tokenfile = require("../token.json")
 module.exports.run = async (bot, message, args, prefix) =>{
-if(message.author.id !== "370007502643003403") return message.channel.send("C TEM DEMENCIA?")
+if(message.author.id !== process.env.OWNERID && message.author.id !== "519192605511254017") return message.channel.send("C TEM DEMENCIA?")
 message.channel.send("Qual o nome do arquivo?")
 const filter = b => !b.author.bot && b.author.id == message.author.id
 
@@ -79,7 +78,7 @@ if(comando.content){
             if (err) throw err;
             await message.channel.send(`comando criado`)
             .then(async () => await bot.destroy(5000))
-            .then(async () => await bot.login(tokenfile.token));
+            .then(async () => await bot.login(process.env.TOKEN));
         })
     }
 }

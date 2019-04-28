@@ -7,6 +7,6 @@ exports.config = {
 name: "slk",
 alias: [],
 description: "slk",
-usage: ")slk",
+usage: "<prefix>slk",
 categoria: "Fun"
 }

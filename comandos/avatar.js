@@ -1,6 +1,6 @@
 const Discord = require("discord.js") 
 const fs = require("fs") 
-module.exports.run = async (bot, message, args, prefix) => { 
+module.exports.run = async (bot, message, args, prefix, database) => { 
 let pessoa = args[0] ? message.mentions.users.first() ? message.mentions.users.first() : bot.users.get(args.join(' ')) ? bot.users.get(args.join(' ')) : bot.users.find(user => user.username.toLowerCase() === args.join(' ').toLowerCase()) ? bot.users.find(user => user.username.toLowerCase() === args.join(' ').toLowerCase()) : bot.users.find(user => user.tag.toLowerCase() === args.join(' ').toLowerCase()) ? bot.users.find(user => user.tag.toLowerCase() === args.join(' ').toLowerCase()) : message.guild.members.find(user => user.displayName.toLowerCase() === args.join(' ').toLowerCase()) ? message.guild.members.find(user => user.displayName.toLowerCase() === args.join(' ').toLowerCase()).user : message.guild.members.find(user => user.displayName.toLowerCase().includes(args.join(' ').toLowerCase())) ? message.guild.members.find(user => user.displayName.toLowerCase().includes(args.join(' ').toLowerCase())).user : bot.users.find(user => user.username.toLowerCase().includes(args.join(' ').toLowerCase())) ? bot.users.find(user => user.username.toLowerCase().includes(args.join(' ').toLowerCase())) : message.author : message.author
     let avatar = pessoa.displayAvatarURL
     if (avatar.endsWith(".gif") || avatar.endsWith(".png")) {
@@ -18,6 +18,6 @@ let pessoa = args[0] ? message.mentions.users.first() ? message.mentions.users.f
     name: "avatar",
     alias: [],
     description: "Comando para mostrar seu avatar ou de um usuario",
-    usage: ")avatar\n)avatar <id>\n)avatar <menção>\n)avatar <nick>",
+    usage: "<prefix>avatar\n<prefix>avatar <id>\n<prefix>avatar <menção>\n<prefix>avatar <nick>",
     categoria: "Utility"
     }

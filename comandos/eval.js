@@ -1,18 +1,8 @@
 const Discord = require("discord.js")
 const fs = require("fs")
 module.exports.run = async (bot, message, args, prefix, database) =>{
-let oi = [
-    "#aa00ff",
-    "36393E"
-    ]
-    let exemplo = Math.floor((Math.random() * oi.length));
 
-
-
-
-    const Discord = require('discord.js')
-
-    if (message.author.id !== '370007502643003403') return;
+    if (message.author.id !== process.env.OWNERID) return;
     try {
         let evel = args.join(" ");
         let oi = eval(evel);

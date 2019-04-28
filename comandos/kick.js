@@ -1,29 +1,20 @@
 const Discord = require("discord.js") 
 const fs = require("fs") 
+const moment = require("moment")
 module.exports.run = async (bot, message, args, prefix) => { 
-let kUser = message.guild.member(message.mentions.users.first() || message.guild.members.get(args[0]));
-    if(!kUser) return message.channel.send("Não foi possivel achar o usuário!");
-    let kReason = args.join(" ").slice(2);
-    if(!kReason) return message.channel.send("Informe a rasão pfv.")
-    if(!message.member.hasPermission("ADMINISTRATOR")) return message.channel.send("Vc n tem permissão garai!");
+let member = message.guild.member(message.mentions.users.first() || message.guild.members.get(args[0]));
+    if(member === message.guild.member(message.mentions.users.first())) return message.channel.send("Não achei o cara que tu ta mencionando");
+    if(member === message.guild.member(message.guild.members.get(args[0]))) return message.channel.send("Não achei o cara que tu ta colocando o id");
+    if(!member) return message.channel.send("Coloque algum membro")
+    let rasão = args.join(" ").slice(2);
+    if(!rasão) return message.channel.send("Informe a rasão pfv")
+    if(!message.member.hasPermission("ADMINISTRATOR") || member.highestRole.position > message.member.highestRole.position || member.highestRole.position === message.member.highestRole.position) return message.channel.send("Vc n tem permissão garai!");
 
-    let kickEmbed = new Discord.RichEmbed()
-    .setDescription("~Kick~")
-    .setColor("#e56b00")
-    .addField("Usuário kickado", `${kUser} with ID ${kUser.id}`)
-    .addField("Kickado por", `<@${message.author.id}> com o id: ${message.author.id}`)
-    .addField("Kickado em", message.channel)
-    .addField("Horário", `${moment(message.createdAt).format("LLLL")}`)
-    .addField("Rasão", kReason)
+    await message.channel.send(`<@${member.id}> foi kickado pelo: <@${message.author.id}>, pelo motivo: **${rasão ? rasão : `nenhuma(a ce dizer <:velho:558845017662291979>)`}**`)
 
-    let log = message.guild.channels.find(c => c.name === "log-kick");
-    if(!log){
-    message.channel.send(kickEmbed);
-    message.guild.member(kUser).kick(kReason);
-    return
-}
-message.guild.member(kUser).kick(kReason);
-    log.send(kickEmbed); 
+    
+message.guild.member(member).kick(rasão);
+member.user.send(`Vc foi kickado do servidor: ${message.guild.name}, por **${rasão ? rasão : `nenhuma rasão especificada`}**`)
 } 
 exports.config = { 
 name: "kick", 
@@ -31,5 +22,5 @@ alias: ["kickar"] ,
 description: "Comando para kickar membros do servidor",
 admin: "sim",
 categoria: "Moderation",
-usage: ")kick <id>\n)kick <menção>"
+usage: "<prefix>kick <id>\n)kick <menção>"
 }

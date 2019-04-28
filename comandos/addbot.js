@@ -1,9 +1,6 @@
 const Discord = require("discord.js")
-const firebase = require('firebase')
-const database = firebase.database()
 
-
-module.exports.run = async (bot, message, args, prefix) => { 
+module.exports.run = async (bot, message, args, prefix, database) => { 
     if(args[0] === "status"){
         database.ref(`Servidores/${message.guild.id}/addbot/abilitado`).once("value").then(async ab => {
             let a;
@@ -12,33 +9,10 @@ module.exports.run = async (bot, message, args, prefix) => {
             message.channel.send(a)
         })
     }
-    if(args[0] === "disable"){
-         if(!message.member.hasPermission("ADMINISTRATOR")) return message.channel.send('vc n tem permissao para realizar este comando')
-        database.ref(`Servidores/${message.guild.id}/addbot/abilitado`).once("value").then(async a => {
-            if(a.val() === null) return message.channel.send("Este modulo ja esta desabilitado")
-
-        database.ref(`Servidores/${message.guild.id}/addbot`).set({
-            abilitado: null
-        })
-        message.channel.send('MODULO DESABILITADO')
-    })
-    }
-    if(args[0] === "enable" || args[0] === "on"){
-        if(!message.member.hasPermission("ADMINISTRATOR")) return message.channel.send('vc n tem permissao para realizar este comando')
-        database.ref(`Servidores/${message.guild.id}/addbot/abilitado`).once("value").then(async a => {
-            if(a.val() === "Sim") return message.channel.send("Este modulo ja esta abilitado")
-
-        database.ref(`Servidores/${message.guild.id}/addbot`).set({
-            abilitado: "Sim"
-        })
-        message.channel.send('MODULO ABILITADO')
-    })
-
-    }
     try{
     if(args[0]) return
     database.ref(`Servidores/${message.guild.id}/addbot/abilitado`).once('value').then(async dab =>{
-        if(dab.val() !== "Sim") return message.channel.send('Abilite este modulo')
+    if(dab.val() !== "Sim") return message.channel.send('Abilite este modulo')
     const canal = message.guild.channels.find(c => c.name === ("addbots" || "add-bots"))
     await message.channel.send("Informe os dados do bot no privado")
     
@@ -120,6 +94,6 @@ module.exports.run = async (bot, message, args, prefix) => {
         name: "addbot",
         alias: ["adicionarbot", "botadd", "botadicionar"],
         description: "Comando para sugerir um bot ao servidor",
-        usage: `)addbot`,
+        usage: `<prefix>addbot`,
         categoria: "Utility"
     }

@@ -1,7 +1,7 @@
 const Discord = require("discord.js")
 const fs = require("fs")
 module.exports.run = async (bot, message, args, prefix) =>{
-if(message.author.id !== "370007502643003403") return message.channel.send("C TEM DEMENCIA?")
+if(message.author.id !== process.env.OWNERID) return message.channel.send("C TEM DEMENCIA?")
 message.channel.send("Qual o nome do arquivo?")
 const filter = b => !b.author.bot && b.author.id == message.author.id
 
@@ -24,7 +24,11 @@ if(this.listaN){
     if(f){
         fs.readFile(`./comandos/${this.arquivo}`, function (err, data){
             if (err) throw err;
-            message.channel.send(`aqui esta: \`\`\`${data}\`\`\``)
+            
+            message.channel.send(`aqui esta: \`\`\`${data}\`\`\``).catch(e => {
+                if(e === "DiscordAPIError") return message.channel.send("teste")
+                 return message.channel.send(`ERRO => ${e}`)
+              })
         })
     }
 }

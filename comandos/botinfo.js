@@ -5,7 +5,7 @@ moment.locale("pt-BR");
 const os = require('os')
 const cpuStat = require("cpu-stat");
 
-module.exports.run = async (bot, message, args, prefix) => { 
+module.exports.run = async (bot, message, args, prefix, database) => { 
     let { version } = require("discord.js");
     cpuStat.usagePercent(function(err, percent, seconds) {
         if (err) {
@@ -30,6 +30,6 @@ exports.config = {
 name: 'botinfo', 
 alias: [],
 description: "Algumas informações sobre o bot",
-usage: ")botinfo",
+usage: "<prefix>botinfo",
 categoria: "Fun"
 }

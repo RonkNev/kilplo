@@ -11,6 +11,6 @@ exports.config = {
     name: "say",
     alias: [],
     description: "Comando para o bot falar algo",
-    usage: ")say <msg>",
+    usage: "<prefix>say <msg>",
     categoria: "Fun"
 }

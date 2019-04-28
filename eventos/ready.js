@@ -7,7 +7,7 @@ module.exports = async (bot, message) => {
     
       let status = [     
       {name: `alegria e felicidade`, type: `STREAMING`, url: 'https://www.twitch.tv/ronkzinho'},
-      {name: `comandos do meu criador`, type: `LISTENING`},  
+      {name: `comandos do meu criador`, type: `LISTENING`, applicationID: '381795064944394249'},  
       {name: `sensações boas`, type: 'STREAMING', url: 'https://www.twitch.tv/alanzoka'}
 
     

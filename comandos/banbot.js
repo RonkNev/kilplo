@@ -1,8 +1,6 @@
 const Discord = require("discord.js") 
 const fs = require("fs") 
-module.exports.run = async (bot, message, args, prefix) => { 
-const firebase = require("firebase")
-const database = firebase.database()
+module.exports.run = async (bot, message, args, prefix, database) => { 
 
 if (message.author.id !== '370007502643003403') return message.channel.send("Vc acha msm que tem perm pra isso?")
 const member = message.mentions.users.first() || args[0]

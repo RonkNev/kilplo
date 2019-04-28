@@ -87,5 +87,5 @@ exports.config = {
    alias: [], 
    description: "Comando para ver a embed do amiguinho", 
    categoria: "Utility", 
-   usage: ")embed <menção>\n)embed <id>" 
+   usage: "<prefix>embed <menção>\n)embed <id>" 
 }

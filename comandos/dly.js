@@ -9,16 +9,17 @@ const member = message.author
     const quantia = "500"
 
     database.ref(`Membros/${member.id}/dimdim/dimdim`)
-    .once("value").then(a => {
+    .once("value").then(async a => {
     if(a.val() == null) {
         database.ref(`Membros/${member.id}/dimdim`)
         .set({
             dimdim: "0"
         })
+    return message.channel.send("digite o comando novamente")
     }
     database.ref(`Membros/${member.id}/daily/time`)
-    .once("value").then(b => {
-    if(a.val() == null) {
+    .once("value").then(async b => {
+    if(b.val() == null) {
         database.ref(`Membros/${member.id}/daily`)
         .set({
             time: "0"
@@ -42,11 +43,11 @@ const member = message.author
     } else {
 
     message.channel.send(`Adiocionado ${quantia} na sua conta`)
-    database.ref(`Membros/${member.id}/dimdim`)
+    await database.ref(`Membros/${member.id}/dimdim`)
     .set({
         dimdim: answer
     })
-    database.ref(`Membros/${member.id}/daily`)
+    await database.ref(`Membros/${member.id}/daily`)
     .set({
         time: Date.now()
     })
@@ -63,5 +64,5 @@ exports.config = {
    ops: "não", 
    description: "Comando para resgatar um dimdim", 
    categoria: "Fun", 
-   usage: ")daily" 
+   usage: "<prefix>daily" 
 }

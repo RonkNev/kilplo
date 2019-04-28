@@ -2,18 +2,43 @@ const Discord = require("discord.js")
 
 module.exports.run = async (bot, message, args, prefix, database) => { 
 const db = database
+if(!message.member.hasPermission("ADMINISTRATOR") && message.author.id !== process.env.OWNERID) return message.channel.send("sem perm")
 db.ref(`Servidores/${message.guild.id}/guildMemberAdd/welcome/enable`).once("value").then(async enable => {
     if(!enable.val()) return message.channel.send("Este modulo n esta abilitado")
+  
+db.ref(`Servidores/${message.guild.id}/guildMemberAdd/msg/msg`).once("value").then(async msg => {
+db.ref(`Servidores/${message.guild.id}/guildMemberAdd/canal/canal`).once("value").then(async canal => {
+  
+if(args[0] === "replaces" || args[0] === "variaveis"){
+  let embed = new Discord.RichEmbed()
+       .setTitle("Variaveis de resposta para o Welcome")
+       .setDescription(`*\`@{member}\` - <@${message.author.id}> \n` +
+        `\`{member}\` - ${message.author.username} \n` +
+        `\`{guild}\` - ${message.guild.name} \n` +
+        `\`{members}\` - ${message.guild.members.size}*`)
+       .setAuthor(message.author.tag, message.author.displayAvatarURL)
+       .setColor(message.member.highestRole.hexColor)
+       return message.channel.send(embed)
+}
+  
+if(args[0] === "status"){
+ let embed = new Discord.RichEmbed()
+ .setTitle("Status " + exports.config.name)
+ .setDescription(`Mensagem: \`${msg.val()}\` \n` +
+ `Canal: \`<#${canal.val()}\``)
+ .setColor(message.member.highestRole.hexColor)
+ .setAuthor(message.author.tag, message.author.displayAvatarURL)
+ message.channel.send(embed)
+  return
+}
 
     if(!args[0]) return message.channel.send(`Iai mano, para utilizar o comando digite: \`${exports.config.usage}\``)
 
 
     if(args[0] === "channel" || args[0] === "canal"){
         if(!args[1]){
-            db.ref(`Servidores/${message.guild.id}/guildMemberAdd/canal/canal`).once("value").then(async canal => {
                 if(!canal.val()) return message.channel.send("N existe nenhum canal setado")
                 return message.channel.send(`<#${canal.val()}>`)
-            })
         }
         if(args[1] === "config" || args[1] === "set"){
             let canal = message.guild.channels.get(args[2]) || message.mentions.channels.first() || message.guild.channels.find(c => c.name === args[2]) || message.guild.channels.find(c => c.name.includes === args[2])
@@ -27,10 +52,8 @@ db.ref(`Servidores/${message.guild.id}/guildMemberAdd/welcome/enable`).once("val
     }
     if(args[0] === "mensagem" || args[0] === "msg"){
         if(!args[1]){
-            db.ref(`Servidores/${message.guild.id}/guildMemberAdd/msg/msg`).once("value").then(async msg => {
                 if(!msg.val()) return message.channel.send("N existe nenhum msg setado")
                 return message.channel.send(`A msg eh: \`${msg.val()}\``)
-            })
         }
         if(args[1] === "config" || args[1] === "set"){
             let msg = args.slice(2).join(" ")
@@ -43,11 +66,13 @@ db.ref(`Servidores/${message.guild.id}/guildMemberAdd/welcome/enable`).once("val
         return
     }
 })
+})
+})
 }
 exports.config = {
     name: "welcome",
     alias: [],
     description: "Comando para setar algumas funções quando alguem entra no servidor",
     categoria: "Moderation",
-    usage: ")welcome <função> <config ou set> <canal ou msg>"
+    usage: "<prefix>welcome <função> <config ou set> <canal ou msg>"
 }

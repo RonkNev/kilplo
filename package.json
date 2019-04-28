@@ -4,6 +4,7 @@
   "description": "Ronkzinho`s bot",
   "main": "index.js",
   "scripts": {
+    "start": "node index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Ronkzinho",
@@ -11,10 +12,14 @@
   "dependencies": {
     "cpu-stat": "^2.0.1",
     "discord.js": "^11.4.2",
-    "firebase": "^5.9.3",
+    "express": "^4.16.4",
+    "firebase": "^5.9.2",
+    "jimp": "^0.6.1",
     "mathjs": "^5.9.0",
     "moment": "^2.24.0",
+    "ms": "^2.1.1",
     "os": "^0.1.1",
-    "parse-ms": "^2.0.0"
+    "parse-ms": "^2.0.0",
+    "translate": "^1.1.0"
   }
 }

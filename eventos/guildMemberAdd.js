@@ -17,7 +17,7 @@ db.ref(`Servidores/${member.guild.id}/guildMemberAdd/canal/canal`).once("value")
     const mensagem = msg.val()
     if(!mensagem) return
 
-    canal.send(mensagem.replace("{member}", `<@${member.user.username}>`).replace("{guild}", `${member.guild.name}`).replace("{name}", `**${member.user.username}**`))
+    canal.send(`${mensagem.replace("@{member}", `<@${member.user.id}>`).replace("{guild}", `${member.guild.name}`).replace("{member}", `**${member.user.username}**`).replace("{guildMembers}", `${member.guild.members.size}`)}`)
 })
 })
 })

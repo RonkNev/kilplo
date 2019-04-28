@@ -1,6 +1,6 @@
 const Discord = require("discord.js")
 const fs = require("fs")
-module.exports.run = async (bot, message, args, prefix) =>{
+module.exports.run = async (bot, message, args, prefix, database) =>{
 let commandAlt = args[0] ? bot.commands.find(c => c.config.name === args[0] && c.config.ops !== "sim" || c.config.alias.includes(args[0]) && c.config.ops !== "sim") : false
 if(commandAlt) {
 let a = bot.commands.find(c => c.config.alias === commandAlt.config.alias).config.alias
@@ -13,7 +13,7 @@ if(a !== null){
 }
 
 let administrador;
-if(commandAlt.config.admin === "sim") administrador = "Sim"
+if(commandAlt.config.admin === "sim" || commandAlt.config.admin === "Sim") administrador = "Sim"
 if(!commandAlt.config.admin) administrador = "Não"
 
 let categoria;
@@ -23,7 +23,7 @@ if(commandAlt.config.categoria === "Utility") categoria = "Utilidades"
     let embed = new Discord.RichEmbed()
     .setColor("BLUE")
     .setTitle(`HELP DO COMANDO: ${commandAlt.config.name.toUpperCase()}`)
-    .addField(`Como usar:`, `\`\`\`${commandAlt.config.usage}\`\`\``)
+    .addField(`Como usar:`, `\`\`\`${commandAlt.config.usage.replace("<prefix>", prefix).replace("\n<prefix>", "\n" + prefix)}\`\`\``)
     .addField(`Descrição:`, `\`\`\`${commandAlt.config.description}\`\`\``)
     .addField(`Aliases:`, `\`\`\`${this.b  ? `${this.b}` : `Nenhum aliases`}\`\`\``)
     .addField(`Só para admins:`, "```" + administrador + "```")
@@ -35,13 +35,109 @@ if(args[0] && !commandAlt){
     return message.channel.send("este comando n existe")
 }
 const comandossize = bot.commands.filter(c => c.config.ops !== "sim").size
+const a = message.channel.permissionsFor(bot.user.id)
+if(!a.has("MANAGE_MESSAGES")){
+  var dm = await message.member.createDM();
+   message.channel.send("olhe seu privado ;)").then(async () => {
 let inicialembed = new Discord.RichEmbed()
 .setTitle(`MENU DE AJUDA`)
 .setDescription(`Bem vindo ao bot ${bot.user.username} \n` +
 `Espero que goste dos meus **${comandossize}** comandos \n` +
 ` \n ` +
 `Reaja com 📁 para abrir o menu de ajuda \n` +
-`E se quiser uma ajuda mais expecifica digite \`)help <comando>\``)
+`E se quiser uma ajuda mais expecifica digite \`${prefix}help <comando>\` \n` +
+`\n<a:hypertada:560629637651103765> Diversão <a:hypertada:560629637651103765> \n` +
+`\n` +
+`<a:sino:556516427851628565> Moderação <a:sino:556516427851628565> \n` +
+`\n` +
+`<a:Policia:548167356556247051> Utilidades <a:Policia:548167356556247051>`)
+.setColor("BLUE")
+message.author.send(inicialembed).then(async msg => {
+await msg.react(':menu:563122176136314880')
+await msg.react('560629637651103765')
+await msg.react('556516427851628565')
+await msg.react('548167356556247051')
+await msg.react('❌')
+
+let inicial = (reaction, user) => reaction.emoji.name === "📁" && user.id === message.author.id;  
+
+const coletorinicial = msg.createReactionCollector(inicial, {time: 60000});
+
+let DiversãoEmbed = new Discord.RichEmbed()
+.setTitle("COMANDOS:")
+.setDescription(`${bot.commands.filter(c => c.config.ops !== "sim" && c.config.categoria === "Fun").map(c => `\`${prefix}${c.config.name}\` | **${c.config.description}**`).join(` \n` +
+` `)}`)
+.setColor("BLUE")
+.setTimestamp()
+.setFooter(`${bot.user.username}, criado por: Ronkzinho`, bot.user.displayAvatarURL);
+
+let ModeraçãoEmbed = new Discord.RichEmbed()
+.setTitle("COMANDOS:")
+.setDescription(`${bot.commands.filter(c => c.config.ops !== "sim" && c.config.categoria === "Moderation").map(c => `\`${prefix}${c.config.name}\` | **${c.config.description}**`).join(` \n` +
+` `)}`)
+.setColor("BLUE")
+.setTimestamp()
+.setAuthor("Comando pedido por: " + message.author.tag, message.author.displayAvatarURL)
+.setFooter(`${bot.user.username}, criado por: Ronkzinho`, bot.user.displayAvatarURL);
+
+let UtilidadesEmbed = new Discord.RichEmbed()
+.setTitle("COMANDOS:")
+.setDescription(`${bot.commands.filter(c => c.config.ops !== "sim" && c.config.categoria === "Utility").map(c => `\`${prefix}${c.config.name}\` | **${c.config.description}**`).join(` \n` +
+` `)}`)
+.setColor("BLUE")
+.setTimestamp()
+.setFooter(`${bot.user.username}, criado por: Ronkzinho`, bot.user.displayAvatarURL);
+
+
+let Diversão = (reaction, user) => reaction.emoji.name === "hypertada" && user.id === message.author.id;  
+
+const coletorDiversão = msg.createReactionCollector(Diversão, {time: 60000});
+
+coletorDiversão.on("collect", async r => {
+await msg.edit(DiversãoEmbed)
+})
+
+let Moderação = (reaction, user) => reaction.emoji.name === "sino" && user.id === message.author.id;  
+
+const coletorModeração = msg.createReactionCollector(Moderação, {time: 60000});
+
+coletorModeração.on("collect", async r => {
+await msg.edit(ModeraçãoEmbed)
+})
+
+let Utilidades = (reaction, user) => reaction.emoji.name === "Polica" && user.id === message.author.id;  
+
+const coletorUtilidades = msg.createReactionCollector(Utilidades, {time: 60000});
+
+coletorUtilidades.on("collect", async r => {
+await msg.edit(UtilidadesEmbed)
+})
+
+let fechar = (reaction, user) => reaction.emoji.name === "❌" && user.id === message.author.id;  
+
+const coletorFechar = msg.createReactionCollector(fechar, {time: 60000});
+coletorFechar.on("collect", async r => {
+await msg.delete()
+})
+
+let voltarInicial = (reaction, user) => reaction.emoji.id === "563122176136314880" && user.id === message.author.id;
+
+const coletorVoltarInicial = msg.createReactionCollector(voltarInicial, {time: 60000});
+
+coletorVoltarInicial.on("collect", async r => {
+await msg.edit(inicialembed)
+})
+})
+})
+  return
+}
+let inicialembed = new Discord.RichEmbed()
+.setTitle(`MENU DE AJUDA`)
+.setDescription(`Bem vindo ao bot ${bot.user.username} \n` +
+`Espero que goste dos meus **${comandossize}** comandos \n` +
+` \n ` +
+`Reaja com 📁 para abrir o menu de ajuda \n` +
+`E se quiser uma ajuda mais expecifica digite \`${prefix}help <comando>\``)
 .setColor("BLUE")
 message.channel.send(inicialembed).then(async msg => {
 await msg.react('📁')
@@ -73,7 +169,7 @@ await msg.react('❌')
 
 let DiversãoEmbed = new Discord.RichEmbed()
 .setTitle("COMANDOS:")
-.setDescription(`${bot.commands.filter(c => c.config.ops !== "sim" && c.config.categoria === "Fun").map(c => `\`)${c.config.name}\` | **${c.config.description}**`).join(` \n` +
+.setDescription(`${bot.commands.filter(c => c.config.ops !== "sim" && c.config.categoria === "Fun").map(c => `\`${prefix}${c.config.name}\` | **${c.config.description}**`).join(` \n` +
 ` `)}`)
 .setColor("BLUE")
 .setTimestamp()
@@ -81,15 +177,16 @@ let DiversãoEmbed = new Discord.RichEmbed()
 
 let ModeraçãoEmbed = new Discord.RichEmbed()
 .setTitle("COMANDOS:")
-.setDescription(`${bot.commands.filter(c => c.config.ops !== "sim" && c.config.categoria === "Moderation").map(c => `\`)${c.config.name}\` | **${c.config.description}**`).join(` \n` +
+.setDescription(`${bot.commands.filter(c => c.config.ops !== "sim" && c.config.categoria === "Moderation").map(c => `\`${prefix}${c.config.name}\` | **${c.config.description}**`).join(` \n` +
 ` `)}`)
 .setColor("BLUE")
 .setTimestamp()
+.setAuthor("Comando pedido por: " + message.author.tag, message.author.displayAvatarURL)
 .setFooter(`${bot.user.username}, criado por: Ronkzinho`, bot.user.displayAvatarURL);
 
 let UtilidadesEmbed = new Discord.RichEmbed()
 .setTitle("COMANDOS:")
-.setDescription(`${bot.commands.filter(c => c.config.ops !== "sim" && c.config.categoria === "Utility").map(c => `\`)${c.config.name}\` | **${c.config.description}**`).join(` \n` +
+.setDescription(`${bot.commands.filter(c => c.config.ops !== "sim" && c.config.categoria === "Utility").map(c => `\`${prefix}${c.config.name}\` | **${c.config.description}**`).join(` \n` +
 ` `)}`)
 .setColor("BLUE")
 .setTimestamp()
@@ -166,6 +263,6 @@ exports.config = {
     name: "help",
     alias: ["ajuda"],
     description: "Comando de ajuda",
-    usage: ")help\n)help <comando>",
+    usage: "<prefix>help\n<prefix>help <comando>",
     categoria: "Utility"
 }

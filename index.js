@@ -1,19 +1,5 @@
-const Discord = require("discord.js")
-const tokenfile = require("./token.json")
-const bot = new Discord.Client()
-const fs = require("fs")
-const firebase = require('firebase')
-
-var config = {
-  apiKey: "AIzaSyAqAXPhV1RHr0Nw7XF3l1thgsz0Ve8So4w",
-  authDomain: "kilplo.firebaseapp.com",
-  databaseURL: "https://kilplo.firebaseio.com",
-  projectId: "kilplo",
-  storageBucket: "kilplo.appspot.com",
-  messagingSenderId: "942326519653"
-};
-firebase.initializeApp(config);
-const database = firebase.database()
+const { Discord, bot, fs, firebase, http, express, app } = require("./utils/variaveis")
+const { database } = require("./utils/utils-config")
 
     bot.commands = new Discord.Collection();
     bot.alias = new Discord.Collection();
@@ -31,7 +17,7 @@ const database = firebase.database()
       if(err) console.log(err.stack)
       let jsf = file.filter(f => f.split('.').pop() === 'js')
       if(jsf.length < 0){
-        console.log('Nenhum comandos foi encontrado');//quando não foi encontrado os comandos ou não há algum arquivo ".js"
+        console.log('Nenhum comandos foi encontrado');
         return;
       }
       jsf.forEach((f,i) => {
@@ -44,4 +30,4 @@ const database = firebase.database()
       })
     })
 
-bot.login(tokenfile.token)
+bot.login(process.env.TOKEN)

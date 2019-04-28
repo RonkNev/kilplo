@@ -1,5 +1,4 @@
 const Discord = require('discord.js')
-const tokenfile = require("../token.json")
 module.exports.run = async (bot, message, args, prefix, database) => { 
 if(!args[0] === "nada" || !args[0] === "comando" || !args[0]) return message.channel.send("Coloque um item valido")
 database.ref(`Membros/${message.author.id}/dimdim/dimdim`).once("value").then(async a => {
@@ -22,5 +21,5 @@ exports.config = {
     alias: ["comprar"],
     description: "Comando para comprar coisas com seu dim dim",
     categoria: "Fun",
-    usage: ")buy <item>"
+    usage: "<prefix>buy <item>"
 }

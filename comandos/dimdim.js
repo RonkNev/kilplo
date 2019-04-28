@@ -19,5 +19,5 @@ exports.config = {
    ops: "nao", 
    description: "Comando para ver quanto tu tem de dim dim", 
    categoria: "Fun", 
-   usage: ")dimdim \n)dimdim <menção>" 
+   usage: "<prefix>dimdim \n)dimdim <menção>" 
 }
