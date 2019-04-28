@@ -1,4 +1,5 @@
 const Discord = require("discord.js") 
+
 module.exports.run = async (bot, message, args, prefix, database) => { 
 const db = database
 if(!message.member.hasPermission("MANAGE_GUILD") && message.author.id !== process.env.OWNERID) return message.channel.send("tu nem perm tem")
