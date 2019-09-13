@@ -5,6 +5,7 @@ const firebase = require('firebase')
 const http = require('http');
 const express = require('express');
 const app = express();
+app.disable('x-powered-by');
 app.get("/", (request, response) => {
   console.log(Date.now() + " Ping Received");
   response.sendStatus(200);
